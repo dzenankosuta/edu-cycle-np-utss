@@ -157,7 +157,7 @@ body::before {
 .clock-container {
   text-align: center;
   margin: 1.1rem 0;
-  padding: 1.1rem;
+  padding: 1.25rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 18px;
   border: 1px solid var(--glass-border);
@@ -199,7 +199,7 @@ body::before {
 
 /* Class Info */
 .class-info-container {
-  padding: 1.1rem;
+  padding: 1.25rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 18px;
   border: 1px solid var(--glass-border);
@@ -637,7 +637,7 @@ body::before {
   cursor: help;
 }
 
-/* Two Column Layout */
+/* Two Column Layout - srednja visina */
 .two-column-wrapper {
   display: flex;
   gap: 2rem;
@@ -645,7 +645,7 @@ body::before {
   justify-content: center;
   max-width: 1200px;
   width: 100%;
-  max-height: calc(100vh - 3rem);
+  height: calc(100vh - 8rem);  /* Umerena visina ekrana */
 }
 
 .two-column-wrapper .main-container {
@@ -653,10 +653,19 @@ body::before {
   max-width: 500px;
   min-width: 400px;
   width: auto;
-  max-height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .schedule-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.schedule-panel .content {
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
@@ -664,10 +673,12 @@ body::before {
 .news-panel {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 /* News Images Component */
 .news-images-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -705,7 +716,7 @@ body::before {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--glass-border);
-  min-height: 200px;
+  min-height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;

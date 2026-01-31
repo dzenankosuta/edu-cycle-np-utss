@@ -13,6 +13,7 @@ import { WebSerialProvider } from './context/WebSerialProvider';
 import { useSchedule } from './hooks/useSchedule';
 import { useBellSystem } from './hooks/useBellSystem';
 import { useAccurateTime } from './hooks/useAccurateTime';
+import { useImages } from './hooks/useImages';
 import './App.css';
 
 function AppContent() {
@@ -20,6 +21,7 @@ function AppContent() {
   const { currentTime, isApiTime } = useAccurateTime();
   const { currentClass, nextClass, shift, isLoading, remainingTime } = useSchedule(currentTime);
   const { checkBellTime } = useBellSystem();
+  const { images } = useImages();
 
   // Auto-fullscreen on first user interaction
   useEffect(() => {
@@ -125,7 +127,7 @@ function AppContent() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
-          <NewsImages images={[]} />
+          <NewsImages images={images} />
         </motion.div>
       </div>
 

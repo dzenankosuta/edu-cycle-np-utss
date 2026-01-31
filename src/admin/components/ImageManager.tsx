@@ -31,7 +31,7 @@ export function ImageManager() {
       await addImage(newImageUrl.trim());
       setNewImageUrl('');
       setShowAddForm(false);
-    } catch (err) {
+    } catch {
       // Error je već postavljen u hook-u
     }
   };
@@ -46,7 +46,7 @@ export function ImageManager() {
     try {
       await deleteImage(deleteConfirm);
       setDeleteConfirm(null);
-    } catch (err) {
+    } catch {
       // Error je već postavljen u hook-u
     }
   };
@@ -55,7 +55,7 @@ export function ImageManager() {
     try {
       await updateImage(id, { order: newOrder });
       setEditingOrder(null);
-    } catch (err) {
+    } catch {
       // Error je već postavljen u hook-u
     }
   };

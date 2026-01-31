@@ -13,6 +13,7 @@ interface UseAdminScheduleReturn {
   addPeriod: (shift: ShiftType, period: ClassPeriod) => Promise<void>;
   deletePeriod: (shift: ShiftType, index: number) => Promise<void>;
   reorderPeriods: (shift: ShiftType, periods: ClassPeriod[]) => Promise<void>;
+  populateDefaultSchedule: () => Promise<void>;
   clearError: () => void;
 }
 
@@ -138,6 +139,46 @@ export function useAdminSchedule(): UseAdminScheduleReturn {
     []
   );
 
+  const populateDefaultSchedule = useCallback(async (): Promise<void> => {
+    if (!database) {
+      setError('Firebase baza nije inicijalizovana');
+      return;
+    }
+
+    try {
+      const defaultSchedule: Schedule = {
+        firstShift: [
+          { class: '1. čas', start: '07:00', end: '07:45' },
+          { class: '2. čas', start: '07:50', end: '08:35' },
+          { class: '3. čas', start: '08:40', end: '09:25' },
+          { class: 'Veliki odmor', start: '09:25', end: '09:45' },
+          { class: '4. čas', start: '09:50', end: '10:35' },
+          { class: '5. čas', start: '10:40', end: '11:25' },
+          { class: '6. čas', start: '11:30', end: '12:15' },
+          { class: '7. čas', start: '12:20', end: '13:00' },
+        ],
+        secondShift: [
+          { class: '1. čas', start: '13:10', end: '14:00' },
+          { class: '2. čas', start: '14:05', end: '14:50' },
+          { class: '3. čas', start: '14:55', end: '15:40' },
+          { class: 'Veliki odmor', start: '15:40', end: '16:00' },
+          { class: '4. čas', start: '16:05', end: '16:50' },
+          { class: '5. čas', start: '16:55', end: '17:40' },
+          { class: '6. čas', start: '17:45', end: '18:30' },
+          { class: '7. čas', start: '18:35', end: '19:20' },
+        ],
+      };
+
+      const scheduleRef = ref(database, 'schedule');
+      await set(scheduleRef, defaultSchedule);
+      setError(null);
+    } catch (err) {
+      console.error('Greška pri popunjavanju default rasporeda:', err);
+      setError('Greška pri popunjavanju default rasporeda');
+      throw err;
+    }
+  }, []);
+
   const clearError = useCallback(() => {
     setError(null);
   }, []);
@@ -150,6 +191,7 @@ export function useAdminSchedule(): UseAdminScheduleReturn {
     addPeriod,
     deletePeriod,
     reorderPeriods,
+    populateDefaultSchedule,
     clearError,
   };
 }

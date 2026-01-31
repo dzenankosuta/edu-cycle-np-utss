@@ -2,9 +2,15 @@ import { motion } from 'framer-motion';
 import { BookOpen, Clock, AlertCircle, Timer } from 'lucide-react';
 import type { CurrentClass } from '../hooks/useSchedule';
 
+interface NextClass {
+  class: string;
+  start: string;
+  end: string;
+}
+
 interface ClassInfoProps {
   currentClass: CurrentClass | null;
-  nextClass: any;
+  nextClass: NextClass | null;
   shift: string;
   remainingTime?: string;
 }

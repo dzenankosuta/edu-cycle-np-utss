@@ -132,4 +132,4 @@ Preporučeni hosting servisi:
 Za pitanja i sugestije, kontaktirajte tim za razvoj.
 
 ---
-Razvijeno sa ❤️ za Tehničku školu "Izudin Šušević"
+Razvijeno sa ❤️ za Ugostiteljsko turističku školu Novi Pazar  

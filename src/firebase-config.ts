@@ -1,26 +1,29 @@
-import { initializeApp } from 'firebase/app';
-import { getDatabase, Database } from 'firebase/database';
+import { initializeApp, type FirebaseApp } from 'firebase/app';
+import { getDatabase, type Database } from 'firebase/database';
+import { getAuth, type Auth } from 'firebase/auth';
 
-// Firebase konfiguracija - edu-cycle-tehnicka-skola projekat
+// Firebase konfiguracija - edu-cycle-np-utss projekat
 const firebaseConfig = {
-  apiKey: "AIzaSyDsYKJUhlQTdyak3gHIGu9g0SHa_hlBPLM",
-  authDomain: "edu-cycle-tehnicka-skola.firebaseapp.com",
-  databaseURL: "https://edu-cycle-tehnicka-skola-default-rtdb.firebaseio.com",
-  projectId: "edu-cycle-tehnicka-skola",
-  storageBucket: "edu-cycle-tehnicka-skola.firebasestorage.app",
-  messagingSenderId: "555157960840",
-  appId: "1:555157960840:web:fef93f042d8ad25bb4073d",
-  measurementId: "G-EPK25D2TGJ"
+  apiKey: "AIzaSyBDz_ZCmUe6fh6vwMALUqzUA0jq3HZH2Mw",
+  authDomain: "edu-cycle-np-utss.firebaseapp.com",
+  databaseURL: "https://edu-cycle-np-utss-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "edu-cycle-np-utss",
+  storageBucket: "edu-cycle-np-utss.firebasestorage.app",
+  messagingSenderId: "396831706375",
+  appId: "1:396831706375:web:df70f5b4e552a22ec009a2"
 };
 
+let app: FirebaseApp | null = null;
 let database: Database | null = null;
+let auth: Auth | null = null;
 
 try {
-  const app = initializeApp(firebaseConfig);
+  app = initializeApp(firebaseConfig);
   database = getDatabase(app);
+  auth = getAuth(app);
   console.log('Firebase inicijalizovan');
 } catch (error) {
   console.warn('Firebase inicijalizacija nije uspela, koristi se lokalni raspored:', error);
 }
 
-export { database };
+export { database, auth };

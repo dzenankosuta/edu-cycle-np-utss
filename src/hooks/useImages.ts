@@ -26,8 +26,8 @@ export const useImages = () => {
       (snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
-          const imageUrls = Object.entries(data)
-            .map(([id, value]: [string, any]) => ({
+          const imageUrls = Object.entries(data as Record<string, { url: string; active?: boolean; order?: number }>)
+            .map(([id, value]) => ({
               id,
               url: value.url,
               active: value.active ?? true,

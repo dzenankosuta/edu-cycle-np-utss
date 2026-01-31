@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Pencil, Trash2, Check, X } from 'lucide-react';
+import { Plus, Pencil, Trash2, Check, X, Database } from 'lucide-react';
 import { useAdminSchedule } from '../hooks/useAdminSchedule';
 import { ConfirmDialog } from './ConfirmDialog';
 import type { ClassPeriod } from '../../types';
@@ -19,7 +19,7 @@ interface NewPeriod {
 }
 
 export function ScheduleEditor() {
-  const { schedule, isLoading, error, updatePeriod, addPeriod, deletePeriod, clearError } =
+  const { schedule, isLoading, error, updatePeriod, addPeriod, deletePeriod, populateDefaultSchedule, clearError } =
     useAdminSchedule();
 
   const [activeTab, setActiveTab] = useState<ShiftType>('firstShift');
@@ -29,6 +29,8 @@ export function ScheduleEditor() {
     shift: ShiftType;
     index: number;
   } | null>(null);
+  const [populateConfirm, setPopulateConfirm] = useState(false);
+  const [isPopulating, setIsPopulating] = useState(false);
 
   const validateTime = (time: string): boolean => {
     return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(time);
@@ -61,7 +63,7 @@ export function ScheduleEditor() {
     try {
       await updatePeriod(shift, index, period);
       setEditingPeriod(null);
-    } catch (err) {
+    } catch {
       // Error je već postavljen u hook-u
     }
   };
@@ -96,7 +98,7 @@ export function ScheduleEditor() {
     try {
       await addPeriod(shift, period);
       setNewPeriod(null);
-    } catch (err) {
+    } catch {
       // Error je već postavljen u hook-u
     }
   };
@@ -111,8 +113,20 @@ export function ScheduleEditor() {
     try {
       await deletePeriod(deleteConfirm.shift, deleteConfirm.index);
       setDeleteConfirm(null);
-    } catch (err) {
+    } catch {
       // Error je već postavljen u hook-u
+    }
+  };
+
+  const handlePopulateDefault = async () => {
+    setIsPopulating(true);
+    try {
+      await populateDefaultSchedule();
+      setPopulateConfirm(false);
+    } catch {
+      // Error je već postavljen u hook-u
+    } finally {
+      setIsPopulating(false);
     }
   };
 
@@ -350,6 +364,16 @@ export function ScheduleEditor() {
           <Plus size={20} />
           <span>Dodaj Čas</span>
         </button>
+
+        {/* Privremeno dugme za popunjavanje default rasporeda - UKLONITI NAKON KORIŠĆENJA */}
+        <button
+          className="admin-btn admin-btn--secondary"
+          onClick={() => setPopulateConfirm(true)}
+          disabled={!!newPeriod || !!editingPeriod || isPopulating}
+        >
+          <Database size={20} />
+          <span>{isPopulating ? 'Popunjavanje...' : 'Popuni Default Raspored'}</span>
+        </button>
       </div>
 
       <ConfirmDialog
@@ -361,6 +385,17 @@ export function ScheduleEditor() {
         onConfirm={handleConfirmDelete}
         onCancel={() => setDeleteConfirm(null)}
         variant="danger"
+      />
+
+      <ConfirmDialog
+        isOpen={populateConfirm}
+        title="Popuni Default Raspored"
+        message="Ova akcija će zameniti trenutni raspored sa default vrednostima. Da li želite da nastavite?"
+        confirmText="Popuni"
+        cancelText="Otkaži"
+        onConfirm={handlePopulateDefault}
+        onCancel={() => setPopulateConfirm(false)}
+        variant="warning"
       />
     </div>
   );

@@ -9,13 +9,13 @@ interface NewsImagesProps {
 const NewsImages: React.FC<NewsImagesProps> = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-advance carousel every 5 seconds
+  // Auto-advance carousel every 2 minutes (120000ms)
   useEffect(() => {
     if (images.length <= 1) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
+    }, 120000);
 
     return () => clearInterval(interval);
   }, [images.length]);
